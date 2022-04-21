@@ -1,6 +1,6 @@
 ## BATTLE_SHIPS
 
-#### Onsided game of battle ships against randomly placed enemy units
+#### Onesided game of battle ships against randomly placed enemy units
 
 #### To run the game
 

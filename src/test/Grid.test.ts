@@ -7,5 +7,7 @@ describe('Grid', () => {
     grid = new Grid();
   })
 
-  it.todo('write tests')
+  it('Grid should have a display method', () => {
+    expect(grid.display).toBeDefined()
+  })
 })

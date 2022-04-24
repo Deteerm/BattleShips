@@ -81,7 +81,8 @@ export default class Grid {
   }
 
   display(): void {
-    
+    //console.log('========= BATTLE SHIPS =========\n')
+
     for (let row of this.fields) {
       let rowString: string = LetterCoordinates[this.fields.indexOf(row)] + ' '
       for (let field of row) {
@@ -109,7 +110,6 @@ export default class Grid {
       this.ships.forEach((ship) => {
         if (ship.wasHit([row, col])) {
           ship.takeAHit()
-          console.log(ship.coordinates)
         }
       })
     }

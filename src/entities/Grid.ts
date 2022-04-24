@@ -9,12 +9,14 @@ import range from '../utils/range'
 
 export default class Grid {
 
-  private fields: any[]
+  private fields: Array<number[]>
+  private ships: Ship[];
   private GRID_WIDTH: number = 10;
   private GRID_HEIGHT: number = 10;
 
   constructor() {
     this.fields = populateFieldsArray(this.GRID_WIDTH, this.GRID_HEIGHT)
+    this.ships = []
   }
 
   placeShips(...Ships: Ship[]): void {
@@ -27,8 +29,11 @@ export default class Grid {
       if (direction === 'VERTICAL') {
         if (this.fields[row + ship.getSize()] !== undefined && this.checkVerticalFields(row, column, ship.getSize())) {
           for (let i = 0; i < ship.getSize(); i++) {
-            this.fields[row++][column] = 1
+            ship.setCoordinate([row, column])
+            this.fields[row][column] = 1
+            row += 1
           }
+          this.ships.push(ship)
         } else {
           this.placeShips(ship)
         }
@@ -37,8 +42,11 @@ export default class Grid {
       else if (direction === 'HORIZONTAL') {
         if (this.fields[row][column + ship.getSize()] !== undefined && this.checkHorizontalFields(row, column, ship.getSize())) {
           for (let i = 0; i < ship.getSize(); i++) {
-            this.fields[row][column++] = 1
+            ship.setCoordinate([row, column])
+            this.fields[row][column] = 1
+            column += 1
           }
+          this.ships.push(ship)
         } else {
           this.placeShips(ship)
         }
@@ -84,9 +92,28 @@ export default class Grid {
     console.log('  ' + range(1, this.GRID_WIDTH))
   }
 
-  getFields(): any[] {
+  getFields(): Array<number[]> {
     return this.fields
   }
 
-  update() {}
+  getShips(): Ship[] {
+    return this.ships
+  }
+
+  update(row: number, col: number): void {
+
+    if (this.fields[row][col] === 0) this.fields[row][col] = -1
+
+    else if (this.fields[row][col] === 1) {
+      this.fields[row][col] = 2
+      this.ships.forEach((ship) => {
+        if (ship.wasHit([row, col])) {
+          ship.takeAHit()
+          console.log(ship.coordinates)
+        }
+      })
+    }
+
+    else console.log('-- Field already checked Captian! Try giving an order to shoot at another.')
+  }
 }

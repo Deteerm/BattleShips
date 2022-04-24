@@ -1,8 +1,11 @@
+import deepIncludes from '../utils/deepIncludes'
+
 export default class Ship {
 
   private size: number
   private health: number
   private sunken: boolean
+  coordinates: Array<number[]> = []
 
   constructor(size: number) {
     this.size = size
@@ -11,9 +14,13 @@ export default class Ship {
   }
 
   takeAHit():void {
-    this.health--
+    this.health -= 1
 
-    if (!this.getHealth()) this.sink()
+    if (this.getHealth() === 0) this.sink()
+  }
+
+  wasHit([row, col]: number[]):boolean {
+    return deepIncludes(this.coordinates, [row, col])
   }
 
   sink(): void {
@@ -30,5 +37,13 @@ export default class Ship {
 
   getHealth(): number {
     return this.health
+  }
+
+  setCoordinate([row, col]: number[]) {
+    this.coordinates.push([row, col])
+  }
+
+  getCoordinates(): Array<number[]> {
+    return this.coordinates
   }
 }

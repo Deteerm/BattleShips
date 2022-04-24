@@ -4,10 +4,23 @@ describe('Ship', () => {
   let ship: Ship
 
   beforeEach((): void => {
-    ship = new Ship();
+    ship = new Ship(5);
   })
 
-  it('Constructor should return a Ship object', () => {
-    expect(ship).toBeDefined()
+  it('Size and health should initially be the same', () => {
+    expect(ship.getSize()).toEqual(ship.getHealth());
+  })
+
+  it('Should lose 1 HP while taking a hit', () => {
+    const previousHealth = ship.getHealth()
+    ship.takeAHit()
+    expect(ship.getHealth() < previousHealth).toBeTruthy()
+  })
+
+  it('Should sink while HP reaches 0', () => {
+    for (let i = ship.getHealth(); i > 0; i--) {
+      ship.takeAHit()
+    }
+    expect(ship.isSunken).toBeTruthy()
   })
 })

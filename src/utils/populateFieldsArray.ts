@@ -1,4 +1,6 @@
-export default function populateFieldsArray(width: number, height: number): any[] {
+import Field from '../types/Field'
+
+export default function populateFieldsArray(width: number, height: number): Array<Field> {
 
   const fields: any[] = [];
 

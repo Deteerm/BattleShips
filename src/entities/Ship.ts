@@ -1,11 +1,13 @@
 import deepIncludes from '../utils/deepIncludes'
 
+import Field from '../types/Field'
+
 export default class Ship {
 
   private size: number
   private health: number
   private sunken: boolean
-  coordinates: Array<number[]> = []
+  private coordinates: Array<Field> = []
 
   constructor(size: number) {
     this.size = size
@@ -19,7 +21,7 @@ export default class Ship {
     if (this.getHealth() === 0) this.sink()
   }
 
-  wasHit([row, col]: number[]):boolean {
+  wasHit([row, col]: Field):boolean {
     return deepIncludes(this.coordinates, [row, col])
   }
 

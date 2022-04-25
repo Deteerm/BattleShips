@@ -1,5 +1,7 @@
 import Ship from '../entities/Ship'
 
+import Field from '../types/Field'
+
 import LetterCoordinates from '../enums/LetterCoordinates'
 import {FieldMappings} from '../enums/FieldMarkers'
 import Directions from '../enums/Directions'
@@ -9,7 +11,7 @@ import range from '../utils/range'
 
 export default class Grid {
 
-  private fields: Array<number[]>
+  private fields: Array<Field>
   private ships: Ship[];
   private GRID_WIDTH: number = 10;
   private GRID_HEIGHT: number = 10;
@@ -81,7 +83,8 @@ export default class Grid {
   }
 
   display(): void {
-    //console.log('========= BATTLE SHIPS =========\n')
+    console.clear()
+    console.log('========= BATTLE SHIPS =========\n')
 
     for (let row of this.fields) {
       let rowString: string = LetterCoordinates[this.fields.indexOf(row)] + ' '
@@ -93,12 +96,17 @@ export default class Grid {
     console.log('  ' + range(1, this.GRID_WIDTH))
   }
 
-  getFields(): Array<number[]> {
+  getFields(): Array<Field> {
     return this.fields
   }
 
   getShips(): Ship[] {
     return this.ships
+  }
+
+  anyShipsLeft(): boolean {
+    let shipStates: boolean[] = this.getShips().map((ship: Ship): boolean => ship.isSunken())
+    return shipStates.reduce((a,b) => a && b)
   }
 
   update(row: number, col: number): void {

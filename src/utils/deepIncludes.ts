@@ -1,4 +1,6 @@
-export default function deepIncludes(arr: Array<any[]>, target: any[]): boolean {
+import Field from '../types/Field'
+
+export default function deepIncludes(arr: Array<Field>, target: Field): boolean {
   for (let i = 0; i < arr.length; i++) {
     let result: boolean = true
     

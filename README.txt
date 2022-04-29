@@ -12,6 +12,6 @@
 
 `npm test`
 
-#### To run tests and cheack coverage
+#### To run tests and check coverage
 
 `npm test-coverage`

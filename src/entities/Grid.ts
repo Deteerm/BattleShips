@@ -82,7 +82,7 @@ export default class Grid {
     return areFieldsFree
   }
 
-  display(): void {
+  display(action?: string): void {
     console.clear()
     console.log('========= BATTLE SHIPS =========\n')
 
@@ -94,6 +94,8 @@ export default class Grid {
       console.log(`${rowString}`)
     }
     console.log('  ' + range(1, this.GRID_WIDTH))
+
+    if (action) console.log('\n' + action)
   }
 
   getFields(): Array<Field> {
@@ -109,19 +111,27 @@ export default class Grid {
     return shipStates.reduce((a,b) => a && b)
   }
 
-  update(row: number, col: number): void {
+  update(row: number, col: number): string {
 
-    if (this.fields[row][col] === 0) this.fields[row][col] = -1
+    if (this.fields[row][col] === 0) {
+      this.fields[row][col] = -1
+      return 'Miss!'
+    }
 
     else if (this.fields[row][col] === 1) {
       this.fields[row][col] = 2
+      let feedback: string = 'Hit!'
       this.ships.forEach((ship) => {
         if (ship.wasHit([row, col])) {
           ship.takeAHit()
+          if (ship.isSunken()) feedback = 'Hit and sunken!'
         }
       })
+      return feedback
+    } else if (this.fields[row][col] === undefined) {
+      return 'There is no such field!'
     }
 
-    else console.log('-- Field already checked Captian! Try giving an order to shoot at another.')
+    else return 'Field already checked Captian! Try giving an order to shoot at another.'
   }
 }

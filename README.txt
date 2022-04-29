@@ -11,3 +11,7 @@
 #### To run tests
 
 `npm test`
+
+#### To run tests and cheack coverage
+
+`npm test-coverage`

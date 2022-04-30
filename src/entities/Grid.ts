@@ -11,7 +11,7 @@ import range from '../utils/range'
 
 export default class Grid {
 
-  private fields: Array<Field>
+  private fields: Array<number[]>
   private ships: Ship[];
   private GRID_WIDTH: number = 10;
   private GRID_HEIGHT: number = 10;
@@ -26,10 +26,10 @@ export default class Grid {
       let row: number = Math.floor(Math.random() * 10 )
       let column: number = Math.floor(Math.random() * 10)
   
-      let direction: string = Directions[Math.floor(Math.random() * 2)]
+      const direction: string = Directions[Math.floor(Math.random() * 2)]
   
       if (direction === 'VERTICAL') {
-        if (this.fields[row + ship.getSize()] !== undefined && this.checkVerticalFields(row, column, ship.getSize())) {
+        if (this.fields[row + ship.getSize()] !== undefined && this.checkVerticalFields(row, column, ship.getSize())) { 
           for (let i = 0; i < ship.getSize(); i++) {
             ship.setCoordinate([row, column])
             this.fields[row][column] = 1
@@ -55,6 +55,7 @@ export default class Grid {
       }
     }
   }
+
 
   private checkVerticalFields(row: number, column: number, size: number): boolean {
     
@@ -85,20 +86,21 @@ export default class Grid {
   display(action?: string): void {
     console.clear()
     console.log('========= BATTLE SHIPS =========\n')
+    const gridString: string = this.fields.map((row) => {
+      return this.constructRowString(row)
+    }).join('\n')
 
-    for (let row of this.fields) {
-      let rowString: string = LetterCoordinates[this.fields.indexOf(row)] + ' '
-      for (let field of row) {
-        rowString += ` ${FieldMappings.get(field)} `
-      }
-      console.log(`${rowString}`)
-    }
+    console.log(gridString)
     console.log('  ' + range(1, this.GRID_WIDTH))
 
     if (action) console.log('\n' + action)
   }
 
-  getFields(): Array<Field> {
+  private constructRowString(row: number[]) {
+    return LetterCoordinates[this.fields.indexOf(row)] + ' ' + row.map((num) => ` ${FieldMappings.get(num)} `).join('')
+  }
+
+  getFields(): Array<number[]> {
     return this.fields
   }
 

@@ -7,16 +7,14 @@ describe('Grid', () => {
   const detroyerAlpha = new Ship(4);
   const destroyerBeta = new Ship(4);
 
+  let ships: Ship[];
+
   beforeEach((): void => {
     grid = new Grid();
+    ships = grid.getShips()
   })
 
-  it('Grid should have a display method', () => {
-    expect(grid.display).toBeDefined()
-  })
-
-  // run 10 times to account for random number selection
-  it.each([1,2,3,4,5,6,7,8,9,10])('Ships placed for %i time should occupy 13 fields', () => {
+  it('Ships placed should occupy 13 fields', () => {
 
     grid.placeShips(battleShip, detroyerAlpha, destroyerBeta)
     let sum: number = 0;

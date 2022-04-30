@@ -14,7 +14,7 @@ describe('Ship', () => {
   it('Should lose 1 HP while taking a hit', () => {
     const previousHealth = ship.getHealth()
     ship.takeAHit()
-    expect(ship.getHealth() < previousHealth).toBeTruthy()
+    expect(previousHealth - ship.getHealth()).toBe(1)
   })
 
   it('Should sink while HP reaches 0', () => {
